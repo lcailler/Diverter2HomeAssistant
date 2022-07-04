@@ -42,10 +42,8 @@ class MyCustomUART : public Component, public UARTDevice {
     static char buffer[max_line_length];
     while (available()) {
       if(readline(read(), buffer, max_line_length) > 0) {
-        // publish_state(buffer);
         DynamicJsonBuffer doc(3000); //cannot be smaller, response is big!
         JsonObject& root = doc.parseObject(buffer);
-        //publish_state(root["energy_wh"].as<char*>());
         if (xsensor1 != nullptr)   xsensor1->publish_state(root["real_power_watt"]);
       }
     }
