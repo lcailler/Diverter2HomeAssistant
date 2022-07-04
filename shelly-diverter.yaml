@@ -1,0 +1,91 @@
+esphome:
+  name: shelly-diverter
+  platformio_options:
+    lib_deps:
+      - ArduinoJson-esphomelib@5.13.3  
+  
+  includes:
+    - MyCustomUART.h
+    - json_util.h
+  libraries:
+    - "json"
+    
+    
+esp8266:
+  board: esp8285
+
+# Enable logging
+logger:
+  level: VERBOSE #makes uart stream available in esphome logstream
+  baud_rate: 0 #disable logging over uartE
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+ota:
+  password: xxxxxxxxxxxxxxxxxxxx
+
+wifi:
+  ssid: !ssid
+  password: !password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Shelly-Diverter Fallback Hotspot"
+    password: xxxxxxxxxxx
+
+captive_portal:
+
+uart:
+  id: diverterUART
+  tx_pin: GPIO1
+  rx_pin: GPIO3
+  baud_rate: 9600
+  rx_buffer_size: 4000
+
+    
+switch:
+  - platform: uart
+    name: "diverter_getJSON"
+    data: "DIVERTER_GETJSON\n"
+    send_every: 40s
+  - platform: uart
+    id: diverter_marche_force_on
+    internal: true
+    name: "diverter_marche_force_on"
+    data: "001_TRIAC_REQUEST_ON\n"
+    send_every: 40s
+  - platform: uart
+    internal: true
+    id : diverter_marche_force_off
+    name: "diverter_marche_force_off"
+    data: "002_TRIAC_REQUEST_OFF\n"
+
+  - platform: template
+    name: "ECS_marche_force"
+    optimistic: true
+    lambda: |-
+      return {};
+    turn_on_action:
+      then:
+        - switch.turn_on: diverter_marche_force_on
+    turn_off_action:
+      then:
+        - switch.turn_off: diverter_marche_force_on
+        - delay: 1s
+        - switch.turn_on: diverter_marche_force_off
+
+sensor:
+  - platform: template
+    id: vaill1
+    name: "In/Out power"
+    unit_of_measurement: "W"
+    lambda: "return {};"
+
+custom_component:
+  lambda: |-
+    auto my_custom_sensor = new MyCustomUART(id(diverterUART),id(vaill1));
+    App.register_component(my_custom_sensor);
+    return {my_custom_sensor};
