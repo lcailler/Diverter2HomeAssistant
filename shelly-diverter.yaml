@@ -72,12 +72,23 @@ uart:
               id(                vaill2).publish_state(f);
             }
 
+## send recurent message 
+
+# send message to UART at fix recurence
+time:
+  - platform: sntp
+    id: my_time
+
+    on_time:
+      # Every 30sec
+      - seconds: /30
+        then:
+          - uart.write:
+              id: diverterUART
+              data: "DIVERTER_GETJSON\n"
+
+
 switch:
-  - platform: uart
-    name: "diverter_getJSON"
-    data: "DIVERTER_GETJSON\n"
-    send_every: 30s
-    restore_mode: "ALWAYS_ON"
   - platform: uart
     id: diverter_marche_force_on
     internal: true
