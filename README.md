@@ -1,4 +1,4 @@
-# Interface wifi web **HomeAssitant** pour **Diverter**
+# Interface wifi **HomeAssitant** pour **Diverter**
 Vous trouverez ici une configuration yaml esphome pour le module **wifi** de votre choix. Elle vous permettra, en plus des fonctions natives du **diverter**, d'ajouter son contrôle à distance directement depuis homeAssitant.
 
 - [Introduction](#Introduction)
@@ -10,7 +10,7 @@ Vous trouverez ici une configuration yaml esphome pour le module **wifi** de vot
 ---
 
 ## Introduction
-**Autonome** par défaut
+S'integre à **home assitant** par défaut
 
 Le module wifi met à disposition un "appareil" accessible depuis homeAssitant. cf copie d'écran ci-dessous. Cette solution  composant **ESPHome**, permet l'ajout automatique et sans effort du composant dans home assistant automatique.
 
