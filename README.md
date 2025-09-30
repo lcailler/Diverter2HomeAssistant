@@ -26,7 +26,7 @@ Vous pouvez contrôler votre **diverter** depuis l'interface **HA**. Elle permet
 ## Aperçu de l'interface web accessible en autonome
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/lcailler/diverter2esphome/refs/heads/main/screenshot00.png" width="600">
+<img src="https://raw.githubusercontent.com/lcailler/Diverter2HomeAssistant/refs/heads/main/screenshot00.png" width="400">
 </p>
 
 ---
